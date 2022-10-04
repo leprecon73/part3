@@ -1,9 +1,11 @@
-const http = require('http')
-
-const app = http.createServer((request, response) => {
-  response.writeHead(200, { 'Content-Type': 'application/json' })
-  response.end(JSON.stringify(data))
-})
+const express = require('express')
+const app = express()
+app.get("/info", (request, response) => {
+  response.send(
+    `<p>Phonebook has info over ${data.length} people</p>
+    <p>${new Date().toString()}</p>`
+  );
+});
 
 const PORT = 3001
 app.listen(PORT)
