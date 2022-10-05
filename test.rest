@@ -8,3 +8,6 @@ content-type: application/json
     "name": "Leprecon73",
     "number": "123-456789000"
 }
+
+###
+GET http://localhost:3001/

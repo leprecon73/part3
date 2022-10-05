@@ -5,16 +5,24 @@ app.use(express.json())
 const morgan = require('morgan')
 app.use(morgan('tiny'))
 
-app.get("/api/persons", (request, response) => {  
-  response.send(persons);
-});
+//morgan.token('type', function (req, res) { return req.headers['content-type'] })
 
-app.get("/info", (request, response) => {
+morgan.token('code', function getCode(req) {
+  return JSON.stringify(req.body);
+ });
+
+app.use(morgan(':method :url :response-time :code'))
+
+app.get('/api/persons', (request, response) => {  
+  response.send(persons);
+})
+
+app.get('/info', (request, response) => {
   response.send(
     `<p>Phonebook has info over ${persons.length} people</p>
     <p>${new Date().toString()}</p>`
-  );
-});
+  )
+})
 
 app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
