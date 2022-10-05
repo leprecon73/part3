@@ -3,15 +3,14 @@ const app = express()
 app.use(express.json())
 
 const morgan = require('morgan')
-app.use(morgan('tiny'))
 
-//morgan.token('type', function (req, res) { return req.headers['content-type'] })
-
-morgan.token('code', function getCode(req) {
-  return JSON.stringify(req.body);
+app.use(morgan(':method :url :status - :response-time ms :code'))
+// 61 - ??? what is that?
+morgan.token('code', (req) => {
+  if (req.method === 'POST') {
+    return JSON.stringify(req.body);
+  }
  });
-
-app.use(morgan(':method :url :response-time :code'))
 
 app.get('/api/persons', (request, response) => {  
   response.send(persons);
@@ -67,7 +66,7 @@ app.post('/api/persons', (request, response) => {
 
   response.json(person)
 })
-
+ 
 const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
