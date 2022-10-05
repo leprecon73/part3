@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-app.get("/", (request, response) => {
+app.get("/api/persons", (request, response) => {  //returns a list of phonebook entries from the address http://localhost:3001/api/persons
   response.send(persons);
 });
 
@@ -19,15 +19,22 @@ app.get('/api/persons/:id', (request, response) => {
     response.json(person)
   } else {
     response.status(404).end()
-    console.log("NO")
   }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(person => person.id !== id)
+
+  response.status(204).end()
+  //console.log(persons)
 })
 
 const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
 
-const persons = [
+let persons = [
   { 
     "id": 1,
     "name": "Arto Hellas", 
