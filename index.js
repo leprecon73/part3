@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
-app.get("/api/persons", (request, response) => {  //returns a list of phonebook entries from the address http://localhost:3001/api/persons
+app.get("/api/persons", (request, response) => {  
   response.send(persons);
 });
 
@@ -28,6 +29,27 @@ app.delete('/api/persons/:id', (request, response) => {
 
   response.status(204).end()
   //console.log(persons)
+})
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  //console.log('body.name: ', body)
+  if (!body.name && !body.number) {
+    return response.status(400).json({ 
+      error: 'Data missing' 
+    })
+  } 
+
+  const person = {
+    id: Math.trunc((9999999999) * Math.random()),
+    name: body.name,
+    number: body.number
+  }
+
+  persons = persons.concat(person)
+
+  response.json(person)
+  console.log('persons: ', persons)
 })
 
 const PORT = 3001
