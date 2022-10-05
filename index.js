@@ -33,10 +33,16 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  //console.log('body.name: ', body)
+  
   if (!body.name && !body.number) {
     return response.status(400).json({ 
-      error: 'Data missing' 
+      error: 'The name or number is missing' 
+    })
+  } 
+
+  if (persons.some(person => person.name === body.name)) {
+    return response.status(400).json({ 
+      error: 'Name must be unique'
     })
   } 
 
@@ -49,7 +55,6 @@ app.post('/api/persons', (request, response) => {
   persons = persons.concat(person)
 
   response.json(person)
-  console.log('persons: ', persons)
 })
 
 const PORT = 3001
