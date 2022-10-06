@@ -4,7 +4,7 @@ app.use(express.json())
 
 const morgan = require('morgan')
 
-app.use(morgan(':method :url :status - :response-time ms :code'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :code'))
 // 61 - ??? what is that?
 morgan.token('code', (req) => {
   if (req.method === 'POST') {
